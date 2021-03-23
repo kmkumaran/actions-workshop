@@ -29,6 +29,11 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.0
+      with: 
+        branch: gh-pages
+        folder: build
   
   upload-build:
     needs: [build-test]
@@ -43,3 +48,5 @@ jobs:
       with: 
         name: ${{ github.workflow }}
         path: build/
+
+  
