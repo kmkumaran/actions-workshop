@@ -16,6 +16,7 @@ on:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    environment: DevTest
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
@@ -49,4 +50,24 @@ jobs:
         name: ${{ github.workflow }}
         path: build/
 
-  
+  deploy-staging:
+    name: Deploy to Staging environment
+    needs: [upload-build]
+    runs-on: ubuntu-latest
+    environment: Staging
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        name: ${{ github.workflow }}
+        path: build/
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.0
+      with: 
+        branch: gh-pages
+        folder: build
+        token: ${{ secrets.TOKEN }}
+        repository-name: kmkumaran/actions-demo-staging
+        
+    
+    
