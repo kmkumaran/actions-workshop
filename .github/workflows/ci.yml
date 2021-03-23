@@ -15,6 +15,7 @@ on:
 
 env:
   owner: kmkumaran
+  domain: github.io
   dev-test-repo: actions-workshop
   staging-repo: actions-demo-staging
 
@@ -23,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: DevTest
-      url: https://${{ env.owner }}.githubio/${{ env.dev-test-repo }}
+      url: https://${{ env.owner }}.$ {{ env.domain }}/${{ env.dev-test-repo }}
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
@@ -63,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Staging
-      url: https://${{ env.owner }}.githubio/${{ env.staging-repo }}
+      url: https://${{ env.owner }}.${{ env.domain }}/${{ env.staging-repo }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
