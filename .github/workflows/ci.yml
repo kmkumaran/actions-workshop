@@ -5,7 +5,9 @@ name: React App CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+    - main
+    - releases/*
   pull_request:
     branches:
     - main
