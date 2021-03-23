@@ -15,19 +15,19 @@ on:
 
 env:
   owner: kmkumaran
+  dev-test-repo: actions-workshop
+  staging-repo: actions-demo-staging
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
     environment: 
       name: DevTest
-      url: https://${{ env.owner }}.githubio/${{ build-test.env.dev-test-repo }}
+      url: https://${{ env.owner }}.githubio/${{ env.dev-test-repo }}
     strategy:
       matrix:
         node-version: [10.x, 12.x, 14.x, 15.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    env:
-      dev-test-repo: actions-workshop
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -61,7 +61,9 @@ jobs:
     name: Deploy to Staging environment
     needs: [upload-build]
     runs-on: ubuntu-latest
-    environment: Staging
+    environment:
+      name: Staging
+      url: https://${{ env.owner }}.githubio/${{ env.staging-repo }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
@@ -74,7 +76,7 @@ jobs:
         branch: gh-pages
         folder: build
         token: ${{ secrets.TOKEN }}
-        repository-name: kmkumaran/actions-demo-staging
+        repository-name: ${{ env.owner }}/${{ env.staging-repo }}
         
     
     
